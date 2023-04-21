@@ -25,6 +25,7 @@ namespace daisysp {
 			float phase_increment;
 			float magnitude;
             int16_t m_sampleRate;
+            float delayed_i = 0;
 
 			arm_biquad_casd_df1_inst_f32 i_ap;
 			arm_biquad_casd_df1_inst_f32 q_ap;

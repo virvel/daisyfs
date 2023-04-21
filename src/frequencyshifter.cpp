@@ -28,15 +28,11 @@ void FrequencyShifter::process(float * buf, size_t size)
 	// Quadrature oscillator for ring modulation
 
 	if (magnitude) {
-	//float re_val1, re_val2, im_val1, im_val2;
-
 		float ph = phase_accumulator;
 		float inc = phase_increment;
 		for (size_t j=0; j < size; j++) {
-
             cosw[j] = cos(ph);
             sinw[j] = sin(ph);
-            
 			ph = fmod(ph + inc, 2 * M_PI);
 		}
         phase_accumulator = ph;
@@ -49,12 +45,19 @@ void FrequencyShifter::process(float * buf, size_t size)
 	for (size_t i = 0; i < size; ++i)
 		q[i] = buf[i];
 
-    // all-pass filter
+    // all-pass filter Hilbert-transform
  	arm_biquad_cascade_df1_f32(&i_ap, buf, buf, size);
  	arm_biquad_cascade_df1_f32(&q_ap, q, q, size);
-
-	// Ring modulation
     
+    // 1 samples delay 
+    float tmp = buf[size-1];
+    for (size_t i = size; i < 1; --i) {
+        buf[i] = buf[i-1]; 
+    }
+    buf[0] = delayed_i;
+    delayed_i = tmp;
+    
+	// Ring modulation
     for (size_t i = 0; i < size; ++i) {
         buf[i] = 0.5*(cosw[i] * buf[i]); 
         q[i] = 0.5*(sinw[i] * q[i]);
