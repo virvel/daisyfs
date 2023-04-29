@@ -20,11 +20,10 @@ void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, s
     for (size_t i = 0; i < size; ++i) {
         out[0][i] = in[0][i];
     }
-    fShifter.process(&out[0][0], size); 
+    fShifter.process(&out[0][0], &out[1][0], &in[1][0], &in[2][0], size); 
     
 	for (size_t i = 0; i < size; i++)
 	{
-		out[1][i] = in[1][i];
 		out[2][i] = in[2][i];
 		out[3][i] = in[3][i];
 	}

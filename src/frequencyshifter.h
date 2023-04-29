@@ -18,6 +18,7 @@ namespace daisysp {
 			void frequency(float freq);
 			void amplitude(float n);
 			virtual void process(float * buf, size_t size);
+			virtual void process(float * buf, float * bufUp, const float * cosw, const float * sinw, size_t size);
 
 		private:
 
