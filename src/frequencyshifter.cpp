@@ -12,7 +12,8 @@ void FrequencyShifter::init(int16_t sampleRate) {
 
     m_sampleRate = sampleRate;
     arm_biquad_cascade_df1_init_f32(&i_ap, n_states, coeffs_i, i_state);
-    arm_biquad_cascade_df1_init_f32(&q_ap, n_states, coeffs_q, q_state); phase_accumulator = -1.f;
+    arm_biquad_cascade_df1_init_f32(&q_ap, n_states, coeffs_q, q_state);
+    phase_accumulator = -1.f;
     magnitude= 0.9f;
     frequency(440.0);
 }
